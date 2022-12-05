@@ -13,13 +13,111 @@ func main() {
 
 	for _, line := range input {
 		strategy := strings.Split(line, " ")
-		calulcateOutcome(strategy[0], strategy[1], &score)
+		calculateOutcome(strategy[0], strategy[1], &score)
 	}
 
 	fmt.Println("Part 1:", score)
+
+	score = 0
+	for _, line := range input {
+		strategy := strings.Split(line, " ")
+		calculateOutcomeTwo(strategy[0], strategy[1], &score)
+	}
+
+	fmt.Println("Part 2:", score)
 }
 
-func calulcateOutcome(opponent string, me string, score *int) {
+func calculateOutcomeTwo(opponent string, outcome string, score *int) {
+	scoreTable := map[string]int{
+		"A": 1, // Rock
+		"B": 2, // Paper
+		"C": 3, // Scissors
+		"X": 1, // Lose
+		"Y": 2, // Draw
+		"Z": 3, // Win
+	}
+
+	myTotalScore := 0
+	opponentValue := scoreTable[opponent]
+	outcomeValue := scoreTable[outcome]
+
+	// Rock
+	if opponentValue == 1 {
+		switch outcomeValue {
+
+		// Lose - Scissors
+		case 1:
+			myTotalScore += 3
+			break
+
+		// Draw - Rock
+		case 2:
+			myTotalScore += 3
+			myTotalScore += 1
+			break
+
+		// Win - Paper
+		case 3:
+			myTotalScore += 6
+			myTotalScore += 2
+			break
+		}
+		fmt.Println(outcomeValue, myTotalScore)
+	}
+
+	// Paper
+	if opponentValue == 2 {
+		switch outcomeValue {
+
+		// Lose - Rock
+		case 1:
+			myTotalScore += 1
+			break
+
+		// Draw - Paper
+		case 2:
+			myTotalScore += 3
+			myTotalScore += 2
+			break
+
+		// Win - Scissors
+		case 3:
+			myTotalScore += 6
+			myTotalScore += 3
+			break
+
+		}
+		fmt.Println(outcomeValue, myTotalScore)
+	}
+
+	// Scissors
+	if opponentValue == 3 {
+		switch outcomeValue {
+
+		// Lose - Paper
+		case 1:
+			myTotalScore += 2
+			break
+
+		// Draw - Scissors
+		case 2:
+			myTotalScore += 3
+			myTotalScore += 3
+			break
+
+		// Win - Rock
+		case 3:
+			myTotalScore += 6
+			myTotalScore += 1
+			break
+		}
+		fmt.Println(outcomeValue, myTotalScore)
+	}
+
+	*score += myTotalScore
+}
+
+func calculateOutcome(opponent string, me string, score *int) {
 	scoreTable := map[string]int{
 		"A": 1, // Rock
 		"B": 2, // Paper
