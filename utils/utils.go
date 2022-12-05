@@ -35,11 +35,13 @@ func CreateStructure(day uint) {
 	defer src.Close()
 
 	// Create destination file
-	dst, err := os.Create(dstPath)
-	ErrorCheck(err)
-	defer dst.Close()
+	if _, err := os.Stat(dstPath); os.IsNotExist(err) {
+		dst, err := os.Create(dstPath)
+		ErrorCheck(err)
+		defer dst.Close()
 
-	io.Copy(dst, src)
+		io.Copy(dst, src)
+	}
 
 	DownloadInput(day)
 	GetDescription(day)
