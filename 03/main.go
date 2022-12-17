@@ -24,6 +24,25 @@ func main() {
 	}
 
 	fmt.Println("Part 1:", prioritySum)
+
+	// Part 2
+	prioritySum = 0
+	for i := 0; i < len(input); i += 3 {
+		first := []rune(input[i])
+		second := []rune(input[i+1])
+		third := []rune(input[i+2])
+
+		m := make(map[rune]bool)
+		for _, char := range first {
+			m[char] = findInSlice(second, char) && findInSlice(third, char)
+		}
+
+		if k, ok := getTrueKey(m); ok {
+			prioritySum += calculatePriority(k)
+		}
+	}
+
+	fmt.Println("Part 2:", prioritySum)
 }
 
 func findInSlice(slice []rune, key rune) bool {
